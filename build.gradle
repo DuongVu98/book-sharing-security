@@ -53,3 +53,13 @@ dependencyManagement {
 test {
 	useJUnitPlatform()
 }
+
+bootJar {
+	archiveName "BooksSharingSecurity.Jar"
+	mainClassName = "com.hcmiu.bookssharingsecurity.BooksSharingSecurityApplication"
+}
+
+bootRun {
+	// Use Spring Boot DevTool only when we run Gradle bootRun task
+	classpath = sourceSets.main.runtimeClasspath + configurations.developmentOnly
+}
