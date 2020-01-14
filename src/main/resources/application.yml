@@ -20,3 +20,12 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+zuul:
+  routes:
+    books-sharing-business-service:
+      path: /api/**
+      url: http://localhost:5001/api

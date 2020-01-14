@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface UserJpaRepository extends JpaRepository<User, String>, CrudRepository<User, String> {
     User findByUsername(String username);
+    User findByEmail(String email);
     List<User> findByUsernameLike(String username);
 
     @Query("update User u set u.username = :username where u.id = :id")
