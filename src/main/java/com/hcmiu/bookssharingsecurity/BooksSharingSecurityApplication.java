@@ -21,16 +21,6 @@ public class BooksSharingSecurityApplication implements CommandLineRunner {
 
 	public void initFireApp() throws IOException {
 
-		FileInputStream serviceAccount = new FileInputStream("src/main/resources/firebase-admin-private-key.json");
-
-		FirebaseOptions options = null;
-
-		options = new FirebaseOptions.Builder()
-				.setCredentials(GoogleCredentials.fromStream(serviceAccount))
-				.setDatabaseUrl("https://books-sharing-system.firebaseio.com")
-				.build();
-
-		FirebaseApp.initializeApp(options);
 	}
 
 	@Override
