@@ -1,14 +1,11 @@
 package com.hcmiu.bookssharingsecurity.adapters.controllers;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.UserRecord;
 import com.hcmiu.bookssharingsecurity.domain.entities.User;
-import com.hcmiu.bookssharingsecurity.domain.exceptions.UsernameOrEmailAlreadyExistAuthenticationException;
-import com.hcmiu.bookssharingsecurity.domain.objects.FireUser;
+import com.hcmiu.bookssharingsecurity.domain.exceptions.RegisterException;
 import com.hcmiu.bookssharingsecurity.domain.objects.LoginRequest;
 import com.hcmiu.bookssharingsecurity.domain.objects.LoginResponse;
 import com.hcmiu.bookssharingsecurity.domain.objects.RegisterRequest;
+import com.hcmiu.bookssharingsecurity.domain.objects.RegisterResponse;
 import com.hcmiu.bookssharingsecurity.usercases.firebaseservices.FirebaseUserManagement;
 import com.hcmiu.bookssharingsecurity.usercases.interactors.LoginInteractor;
 import com.hcmiu.bookssharingsecurity.usercases.interactors.RegisterInterator;
@@ -45,8 +42,13 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/register")
-    public User signUp(@RequestBody RegisterRequest registerRequest) throws UsernameOrEmailAlreadyExistAuthenticationException {
-        return registerInterator.registerWithEmailAndPassword(registerRequest);
+    public RegisterResponse signUp(@RequestBody RegisterRequest registerRequest) {
+        try {
+            User newUser = registerInterator.registerWithEmailAndPassword(registerRequest);
+            return new RegisterResponse(newUser, "register success");
+        } catch (RegisterException e) {
+            return new RegisterResponse(null, e.getMessage());
+        }
     }
 
     @PostMapping(value = "/logout")
