@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/", method = RequestMethod.GET)
+@RequestMapping(value = "", method = RequestMethod.GET)
 public class HomeController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
