@@ -4,6 +4,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,5 +28,10 @@ public class FirebaseConfiguration {
         FirebaseApp.initializeApp(options);
 
         return FirebaseAuth.getInstance();
+    }
+
+    @Bean
+    public FirebaseDatabase firebaseDatabase(){
+        return FirebaseDatabase.getInstance();
     }
 }
