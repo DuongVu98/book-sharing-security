@@ -1,7 +1,9 @@
 package com.hcmiu.bookssharingsecurity.usercases.interactors;
 
+import com.hcmiu.bookssharingsecurity.domain.entities.User;
 import com.hcmiu.bookssharingsecurity.domain.objects.LoginRequest;
 import com.hcmiu.bookssharingsecurity.domain.objects.LoginResponse;
+import com.hcmiu.bookssharingsecurity.domain.repositories.UserJpaRepository;
 import com.hcmiu.bookssharingsecurity.usercases.services.CustomUserDetails;
 import com.hcmiu.bookssharingsecurity.usercases.services.JwtTokenService;
 import com.hcmiu.bookssharingsecurity.usercases.services.UserSecurityService;
@@ -29,15 +31,20 @@ public class LoginInteractor {
     UserDetailsService userSecurityService;
 
     @Autowired
+    UserJpaRepository userRepository;
+
+    @Autowired
     private JwtTokenService jwtTokenService;
 
     public LoginResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtTokenService.generateToken((CustomUserDetails) userSecurityService.loadUserByUsername(authentication.getName()));
 
-        log.info("[get principal] --> {}", authentication.getName());
-        return new LoginResponse(jwt);
+        String jwt = jwtTokenService.generateToken((CustomUserDetails) userSecurityService.loadUserByUsername(authentication.getName()));
+        User user = userRepository.findByEmail(authentication.getName());
+
+        log.info("getAuthentication.getName() --> {}", authentication.getName());
+        return new LoginResponse(user, jwt);
     }
 }
